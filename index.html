@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="A simple calculator" />
+        <meta name="author" content="Debi Prasad Mishra" />
+        <title>Calculator</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+        />
+
+        <link rel="stylesheet" href="/style.css" />
+        <script defer src="/script.js"></script>
+    </head>
+    <body class="bg-light">
+        <h1
+            class="
+                bg-light
+                font-monospace
+                text-muted text-decoration-underline
+                ms-5
+                d-inline
+            "
+        >
+            Calculator
+        </h1>
+        <sub class="m-3 mt-2 p-0 bg-light position-relative message"
+            >Please Use your Keyboard to use the calculator.</sub
+        >
+        <hr />
+        <div class="container text-end">
+            <p class="bg-warning content"></p>
+            <p class="bg-success text-white result"></p>
+            <div class="btns-container p-3 ps-0">
+                <div class="row me-lg-5 ms-sm-0 me-sm-0">
+                    <div class="col">
+                        <button class="btn btn-outline-dark cancel">C</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark backspace">
+                            ⌫
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark percent">%</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark divide">/</button>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+
+                <div class="row me-lg-5 ms-sm-0 me-sm-0">
+                    <div class="col">
+                        <button class="btn btn-outline-dark seven">7</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark eight">8</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark nine">9</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark mul">*</button>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+                <div class="row me-lg-5 ms-sm-0 me-sm-0">
+                    <div class="col">
+                        <button class="btn btn-outline-dark four">4</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark five">5</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark six">6</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark minus">-</button>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+                <div class="row me-lg-5 ms-sm-0 me-sm-0">
+                    <div class="col">
+                        <button class="btn btn-outline-dark one">1</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark two">2</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark three">3</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark plus">+</button>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+                <div class="row me-lg-5 ms-sm-0 me-sm-0">
+                    <div class="col">
+                        <button class="btn btn-outline-dark ms-3">00</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark zero">0</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark dot">.</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark equal">=</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <a
+                href="https://www.debiprasadmishra.net"
+                target="_blank"
+                class="
+                    text-decoration-none
+                    position-absolute
+                    bottom-0
+                    text-muted
+                    footer
+                    h6
+                "
+                >&copy; by Debi Prasad Mishra</a
+            >
+        </footer>
+    </body>
+</html>

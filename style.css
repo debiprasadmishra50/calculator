@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container {
+    width: 50%;
+}
+.btns-container {
+    background-color: bisque;
+    /* padding: 10px 20px; */
+    /* text-align: unset; */
+}
+.message {
+    top: 22px;
+    left: -80px;
+}
+
+footer {
+    /* margin-left: 45%; */
+    text-align: center;
+    margin-left: -10%;
+}
