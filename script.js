@@ -38,7 +38,7 @@ const findPercentage = (res) => {
 btnContainer.addEventListener("click", function (e) {
     let btnContent = e.target.textContent;
     try {
-        console.log(btnContent, res, e);
+        // console.log(btnContent, res, e);
         if (e.target.tagName === "BUTTON") {
             if (btnContent === "C") {
                 res = "";
@@ -126,7 +126,7 @@ const keyAction = (pressedKey) => {
 };
 
 document.querySelector("body").addEventListener("keydown", function (e) {
-    console.log(e.key);
+    // console.log(e.key);
     switch (e.key) {
         case "Backspace":
             keyAction("backspace");
