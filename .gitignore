@@ -1,0 +1,22 @@
+CLAUDE.local.md
+
+playwright-output/
+playwright-profile/
+
+visual-review/*
+
+node_modules/*
+
+coverage/*
+
+# Local, per-machine Claude state (never commit)
+.visual/
+work/
+settings.local.json
+replay/last.*
+cache/
+.claude/*
+script.sh
+.mcp.json
+CLAUDE*.md
+
