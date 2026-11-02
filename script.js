@@ -1,144 +1,105 @@
 "use strict";
-
-const btnContainer = document.querySelector(".btns-container");
-const content = document.querySelector(".content");
-const result = document.querySelector(".result");
-
+const resultEl = document.getElementById("result");
+const exprEl = document.getElementById("expr");
 let res = "";
-const symbols = ["+", "-", "*", "/"];
-const buttons = {
-    1: "one",
-    2: "two",
-    3: "three",
-    4: "four",
-    5: "five",
-    6: "six",
-    7: "seven",
-    8: "eight",
-    9: "nine",
-    0: "zero",
-    "+": "plus",
-    "-": "minus",
-    "*": "mul",
-    "/": "divide",
-    ".": "dot",
-    "=": "equal",
-    "%": "percent",
-};
 
-const findPercentage = (res) => {
-    if (res.includes("%")) {
-        const data = res.split("%");
-        content.textContent = res;
-        result.textContent = data[0] * data[1] * 0.01;
-        return;
+function fmt(s) {
+  return s.replace(/\*/g, "×").replace(/\//g, "÷").replace(/-/g, "−");
+}
+
+function safeEval(expr) {
+  if (!expr || /[+\-*/%]$/.test(expr)) return NaN;
+  if (expr.split(/[+\-*/%]/).some(p => (p.match(/\./g) || []).length > 1)) return NaN;
+  try {
+    const calcExpr = expr.replace(/÷/g, "/").replace(/×/g, "*").replace(/−/g, "-");
+    if (!/^[0-9+\-*/%.\s]+$/.test(calcExpr)) return NaN;
+    return Function('"use strict"; return (' + calcExpr + ')')();
+  } catch {
+    return NaN;
+  }
+}
+
+function preventInvalidOps(current, op) {
+  if (!current) return current + op;
+  if (/[+\-*/%]$/.test(current)) return current.slice(0, -1) + op;
+  return current + op;
+}
+
+function update() {
+  if (!res) { exprEl.textContent = ""; resultEl.textContent = "0"; return; }
+  exprEl.textContent = fmt(res);
+  const v = safeEval(res);
+  if (Number.isFinite(v)) { let s = v; if (Math.abs(s) >= 1e15 || (Math.abs(s) < 1e-6 && s !== 0)) s = s.toExponential(6); resultEl.textContent = s; } else { resultEl.textContent = ""; }
+}
+
+document.querySelector(".keypad").addEventListener("click", function(e) {
+  const btn = e.target.closest(".btn-calc");
+  if (!btn) return;
+  const val = btn.dataset.value;
+  const act = btn.dataset.action;
+
+  if (act === "clear") { res = ""; update(); return; }
+  if (act === "backspace") { res = res.slice(0, -1); update(); return; }
+
+  if (act === "percent") {
+    if (res.includes("%")) return;
+    const lastOpIndex = Math.max(res.lastIndexOf("+"), res.lastIndexOf("-"), res.lastIndexOf("*"), res.lastIndexOf("/"));
+    const base = res.slice(lastOpIndex + 1) || res;
+    const num = parseFloat(base);
+    if (!isNaN(num)) {
+      res += "%";
+      const v = num * 0.01;
+      if (Number.isFinite(v)) { let s = v; if (Math.abs(s) >= 1e15 || (Math.abs(s) < 1e-6 && s !== 0)) s = s.toExponential(6); resultEl.textContent = s; }
+      exprEl.textContent = fmt(res);
     }
-};
+    return;
+  }
 
-btnContainer.addEventListener("click", function (e) {
-    let btnContent = e.target.textContent;
-    try {
-        // console.log(btnContent, res, e);
-        if (e.target.tagName === "BUTTON") {
-            if (btnContent === "C") {
-                res = "";
-                content.textContent = "";
-                result.textContent = "";
-                return;
-            }
+  if (act === "equals") {
+    const v = safeEval(res);
+    if (Number.isFinite(v)) {
+      if (Number.isFinite(v)) { let s = v; if (Math.abs(s) >= 1e15 || (Math.abs(s) < 1e-6 && s !== 0)) s = s.toExponential(6); resultEl.textContent = s; }
+      exprEl.textContent = fmt(res) + " =";
+      res = String(v);
+    } else {
+      resultEl.textContent = "";
+    }
+    return;
+  }
 
-            // if (btnContent === "⌫") {
-            if (e.target.classList.contains("backspace")) {
-                if (res) {
-                    res = res.slice(0, res.length - 1);
-                    content.textContent = res;
-                }
+  if (["add","subtract","multiply","divide"].includes(act)) {
+    const op = {add:"+", subtract:"-", multiply:"*", divide:"/"}[act];
+    res = preventInvalidOps(res, op);
+    update();
+    return;
+  }
 
-                if (res.includes("%")) {
-                    findPercentage(res);
-                    return;
-                }
-
-                result.textContent = eval(res);
-                return;
-            }
-
-            if (btnContent === "=") {
-                if (res.includes("%")) {
-                    findPercentage(res);
-                    content.style.fontSize = "1em";
-                    res = "";
-                    return;
-                }
-
-                result.textContent = eval(res);
-                content.style.fontSize = "1em";
-                res = "";
-                return;
-            }
-
-            if (btnContent === "%" || res.includes("%")) {
-                res += btnContent;
-                findPercentage(res);
-                return;
-            }
-
-            content.textContent = "";
-            content.style.fontSize = "2em";
-            result.style.fontSize = "2em";
-
-            // prettier-ignore
-            if (res.endsWith("+") || res.endsWith("-") || res.endsWith("*") || res.endsWith("/")) {
-            if (btnContent === "+" || btnContent === "-" || btnContent === "*" || btnContent === "/") {
-                symbols.map((el) => {
-                    if (btnContent === el) {
-                        res = res.slice(0, res.length - 1) + btnContent;
-                    }
-                });
-            } else {
-                if (btnContent !== "C" && btnContent !== "⌫")
-                    res += btnContent;
-            }
-        } else {
-            if (btnContent !== "C" && btnContent !== "⌫")
-                res += btnContent;
-        }
-
-            if (!res.includes("%")) {
-                content.textContent = res;
-                result.textContent = eval(res);
-            }
-        }
-    } catch (err) {}
+  if (val !== undefined) {
+    if (val === ".") {
+      const parts = res.split(/[+\-*/]/);
+      const current = parts[parts.length - 1] || "";
+      if (current.includes(".")) return;
+    }
+    res += val;
+    update();
+  }
 });
 
-const keyAction = (pressedKey) => {
-    try {
-        const key = document.querySelector("." + pressedKey);
-        key.style.backgroundColor = "#fff";
-        key.style.color = "#000";
-        key.click();
-        setTimeout(() => {
-            key.style.backgroundColor = "";
-            key.style.color = "";
-        }, 400);
-    } catch (err) {}
-};
-
-document.querySelector("body").addEventListener("keydown", function (e) {
-    // console.log(e.key);
-    switch (e.key) {
-        case "Backspace":
-            keyAction("backspace");
-            break;
-        case "c":
-        case "C":
-            keyAction("cancel");
-            break;
-        case "Enter":
-            keyAction("equal");
-            break;
-        default:
-            keyAction(buttons[e.key]);
-    }
+document.addEventListener("keydown", function(e) {
+  const map = {
+    "0":"0","1":"1","2":"2","3":"3","4":"4",
+    "5":"5","6":"6","7":"7","8":"8","9":"9",
+    ".":".","+":"add","-":"subtract","*":"multiply",
+    "/":"divide","%":"percent","Enter":"equals",
+    "Backspace":"backspace","c":"clear","C":"clear","Escape":"clear","=":"equals"
+  };
+  const a = map[e.key];
+  if (!a) return;
+  e.preventDefault();
+  const b = document.querySelector(`[data-action="${a}"], [data-value="${a}"]`);
+  if (b) {
+    b.classList.add("flash");
+    b.click();
+    setTimeout(() => b.classList.remove("flash"), 150);
+  }
 });
