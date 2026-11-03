@@ -313,4 +313,13 @@ body.light-mode .site-footer a,
 .calc-card.light-mode + .site-footer a { color: rgba(26,26,46,0.45); }
 body.light-mode .btn-op,
 .calc-card.light-mode .btn-op { color: #4a2c8a; }
+.history-panel { margin-top: 32px; margin-left: 24px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 15px; max-height: 340px; overflow-y: auto; }
+.history-panel h3 { font-size: 0.85rem; margin-bottom: 6px; color: var(--text-muted); }
+.history-list { display: flex; flex-direction: column; gap: 3px; }
+.history-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 4px 6px; font-family: var(--font-mono); font-size: 0.78rem; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); transition: background 0.15s; word-break: break-word; overflow-wrap: anywhere; }
+.history-item:hover { background: rgba(255,255,255,0.08); }
+.history-item span.result { color: var(--accent-cyan); }
+
+body.light-mode .history-item { color: #1a1a2e; font-weight: 500; }
+body.light-mode .history-item span.result { color: #3b82f6; }
 EOF1
