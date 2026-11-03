@@ -60,6 +60,11 @@ document.querySelector(".keypad").addEventListener("click", function(e) {
     if (Number.isFinite(v)) {
       if (Number.isFinite(v)) { let s = v; if (Math.abs(s) >= 1e15 || (Math.abs(s) < 1e-6 && s !== 0)) s = s.toExponential(6); resultEl.textContent = s; }
       exprEl.textContent = fmt(res) + " =";
+      const entry = { expr: fmt(res), result: String(v) };
+      let history = JSON.parse(localStorage.getItem('calcHistory') || '[]');
+      history.unshift(entry);
+      localStorage.setItem('calcHistory', JSON.stringify(history.slice(0, 10)));
+      renderHistory();
       res = String(v);
     } else {
       resultEl.textContent = "";
@@ -104,6 +109,16 @@ document.addEventListener("keydown", function(e) {
   }
 });
 
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  if (!list) return;
+  const history = JSON.parse(localStorage.getItem('calcHistory') || '[]');
+  list.innerHTML = history.map(h => `<button class="history-item" onclick="restoreHistory('${h.expr.replace(/'/g,"\\'")}','${h.result.replace(/'/g,"\\'")}')"><span>${h.expr}</span> <span class="result">= ${h.result}</span></button>`).join('');
+}
+window.restoreHistory = function(expr, result) {
+  res = expr; update(); resultEl.textContent = result;
+};
+
 // Theme persistence
 document.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('theme') === 'light') {
@@ -117,4 +132,5 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.textContent = light ? '☀' : '☽';
     localStorage.setItem('theme', light ? 'light' : 'dark');
   });
+  renderHistory();
 });
