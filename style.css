@@ -367,7 +367,21 @@ body.light-mode .btn-op,
   font-size: 0.85rem;
   margin-bottom: 6px;
   color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
+.clear-btn {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255,255,255,0.06);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.clear-btn:hover { background: rgba(255,255,255,0.12); }
 .history-list {
   display: flex;
   flex-direction: column;
