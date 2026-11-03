@@ -103,3 +103,18 @@ document.addEventListener("keydown", function(e) {
     setTimeout(() => b.classList.remove("flash"), 150);
   }
 });
+
+// Theme persistence
+document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    document.querySelector('.calc-card').classList.add('light-mode');
+  }
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const btn = document.getElementById('themeToggle');
+    const light = document.body.classList.toggle('light-mode');
+    document.querySelector('.calc-card').classList.toggle('light-mode');
+    btn.textContent = light ? '☀' : '☽';
+    localStorage.setItem('theme', light ? 'light' : 'dark');
+  });
+});
