@@ -159,6 +159,7 @@ document.addEventListener("keydown", function (e) {
 
 function renderHistory() {
   const list = document.getElementById("historyList");
+  const clearBtn = document.getElementById("clearHistory");
   if (!list) return;
   const history = JSON.parse(localStorage.getItem("calcHistory") || "[]");
   list.innerHTML = history
@@ -167,6 +168,9 @@ function renderHistory() {
         `<button class="history-item" onclick="restoreHistory('${h.expr.replace(/'/g, "\\'")}','${h.result.replace(/'/g, "\\'")}')"><span>${h.expr}</span> <span class="result">= ${h.result}</span></button>`,
     )
     .join("");
+  if (clearBtn) {
+    clearBtn.style.display = history.length > 0 ? "inline-flex" : "none";
+  }
 }
 window.restoreHistory = function (expr, result) {
   res = expr;
